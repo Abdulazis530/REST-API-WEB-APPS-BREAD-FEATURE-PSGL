@@ -3,6 +3,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const { Pool } = require('pg')
+var moment = require('moment'); // require
+moment().format(); 
 
 const pool = new Pool({
     user: 'azis',
