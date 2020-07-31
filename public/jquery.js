@@ -4,7 +4,12 @@ const API_URL = "http://localhost:4000/api/"
 
 $(document).ready(() => {
   loadData()
-
+  $('#myModal').on('show.bs.modal', function (e) {
+    console.log('ok')
+    if (!data) {
+      return e.preventDefault() // stops modal from being shown
+    }
+  })
   $('#form-siswa').submit((event) => {
     event.preventDefault()
     let string = $('#string').val()
@@ -12,15 +17,15 @@ $(document).ready(() => {
     let float = $('#float').val()
     let date = $('#date').val()
     let bool = $('#boolean').val()
-    $('#string').val('')
-    $('#integer').val('')
-    $('#float').val('')
-    $('#date').val('')
-    $('#boolean').val('')
+
     addData({ string, integer, float, date, bool })
 
   })
+  $("table tbody").on("click", ".btn-delete", function () {
+  deleteData($(this).attr("dataId"));
+  });
 })
+
 const loadData = () => {
   $.ajax({
     method: "GET",
@@ -38,8 +43,8 @@ const loadData = () => {
                 <td>${moment(e.date_data).format('YYYY-MM-DD')}</td>
                 <td>${e.boolean_data}</td>
                 <td>
-                  <button type ="button" class="btn btn-success">edit</button>
-                  <button type ="button" class="btn btn-danger">delete</button>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">edit</button> 
+                  <button type ="button" class="btn btn-danger btn-delete" dataId="${e.bread_id}">delete</button>
                 </td>
                 
               </tr>`
@@ -61,6 +66,26 @@ const addData = (randomType) => {
   }).done(function (data) {
     console.log("good")
     loadData()
+    $('#string').val('')
+    $('#integer').val('')
+    $('#float').val('')
+    $('#date').val('')
+    $('#boolean').val('')
+  }).fail(function (jqXHR, textStatus) {
+    alert("Request failed: " + textStatus);
+  });
+}
+
+const deleteData = (id) => {
+  $.ajax({
+    method: "DELETE",
+    url: `${API_URL}bread/${id}`,
+    
+
+  }).done(function (data) {
+    console.log("good")
+    loadData()
+   
   }).fail(function (jqXHR, textStatus) {
     alert("Request failed: " + textStatus);
   });

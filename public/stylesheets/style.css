@@ -1,8 +1,147 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.navbar .navbar-brand {
+  font-family: ubuntu;
+  font-size: 3rem;
+  font-weight: bold;
+  color: white;
+  
+}
+a.navbar-brand{
+  position: relative;
+  left: 150px;
+}
+h1{
+  font-family: ubuntu;
+}
+.navbar{
+  
+  margin-bottom:50px ;
+
+}
+ul.navbar-nav {
+  margin-right: 30px;
 }
 
-a {
-  color: #00B7FF;
+.nav-item {
+  margin-left: 20px;
+
+}
+
+ body {
+  /* background-color: #45515c; */
+  background-color: #ff4c68;
+  color: white;
+
+}
+
+.readonly::placeholder {
+  color: white
+}
+
+/* fb */
+
+h6 {
+  margin-left: 3px;
+  margin-top: 5px;
+  margin-bottom: 2px;
+}
+
+.filter {
+  margin-top: 30px;
+}
+
+
+
+
+
+
+
+
+
+
+.custom-select {
+  color: black;
+  border: none;
+
+}
+
+
+.end-date {
+  position: relative;
+  width: 65%;
+  margin-left: 190px;
+}
+
+.row {
+  margin-bottom: 5px;
+}
+
+.btn-input {
+  margin: 50px 0;
+  width: 120px;
+}
+
+.edit-tables {
+  margin-top: 20px;
+  text-align: center;
+
+
+}
+
+.edit-tables table {
+  overflow: hidden;
+  border-radius: 10px 10px 10px 10px;
+}
+
+.btn-table-delete {
+  width: 50%;
+  margin-left: 10px;
+}
+
+.btn-table-edit {
+  width: 30%;
+}
+
+
+.a-edit {
+  color: white;
+  font-size: 1rem;
+}
+
+.a-edit:hover {
+  color: white;
+  font-size: 1rem;
+  text-decoration: none;
+}
+
+.page-link {
+  border-color: #45515c;
+  color: white;
+}
+
+.page-link:hover {
+  border-color: #45515c;
+  color: white;
+}
+
+
+#footer {
+  margin-top: 100px;
+  height: 200px;
+  background-color: #343a40 !important;
+  text-align: center;
+}
+
+.footer-container {
+  margin-top: 30px;
+  position: absolute;
+}
+
+.copy-right {
+
+  margin-top: 50px;
+  margin-left: 550px;
+}
+
+.social-icon {
+  margin: 10px 10px 10px 10px;
 }
