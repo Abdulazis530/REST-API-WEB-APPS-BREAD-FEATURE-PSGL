@@ -143,6 +143,7 @@
   </form>
 </section>
 
+<!-- modals -->
 <div class="modal fade" id="form-popUp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog ">
@@ -153,8 +154,6 @@
         </button>
       </div>
       <div class="modal-body">
-
-      
         <form id="change" method="POST">
           <div class="edit-row form-group row">
             <label for="inputId" class="col-sm-2 col-form-label">ID</label>
@@ -190,8 +189,6 @@
             </div>
           </div>
 
-
-
           <div class="form-group row">
             <label for="inputBool" class="col-sm-2 col-form-label">Boolean</label>
 
@@ -215,14 +212,10 @@
       </div>
       </form>
     </div>
-
-<div class="dunno">
-
-</div>
-
-
   </div>
 </div>
+
+<!-- end of modals -->
 
 <section id="show-tables">
 
@@ -250,17 +243,27 @@
 
 </section>
 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button> -->
-<section id="paginations">
+<section id="paginations-sec">
+  <form id="pagiForm"  method="GET">
+    <div class="container">
+      <nav aria-label="Page navigation ">
+        <ul class="pagination">
 
 
-  <div class="container">
-    <button type="submit" name="add" value="clicked" class="btn-input btn btn-dark btn-add" data-toggle="modal"
-      data-target="#form-popUp">Add</button>
-  </div>
-
-
+        </ul>
+      </nav>
+    </div>
+  </form>
 
 </section>
+
+
+
+<div class="container">
+  <button type="submit" name="add" value="clicked" class="btn-input btn btn-dark btn-add" data-toggle="modal"
+    data-target="#form-popUp">Add</button>
+</div>
+
 
 <script type="text/javascript" src="/jquery.js">
 

@@ -3,13 +3,21 @@ const API_URL = "http://localhost:4000/api/"
 
 
 $(document).ready(() => {
+  //load all data
   loadData()
 
-
-  $('#change').submit((event) => {
-    
+  //for page button submit
+  $("#formPagi").submit((event) =>{
     event.preventDefault()
-    let bread_id=$('#inputId').val()
+    let page = $(`#pagination`).val()
+    console.log(page)
+  })
+  /
+  //for Add and Edit Fitur
+  $('#change').submit((event)=>{
+
+    event.preventDefault()
+    let bread_id = $('#inputId').val()
     let string = $('#inputString').val()
     let integer = $('#inputInteger').val()
     let float = $('#inputFloat').val()
@@ -18,12 +26,12 @@ $(document).ready(() => {
     if ($(document.activeElement).attr('id') === "saveBtn") {
       addData({ string, integer, float, date, bool })
     } else {
-      console.log("edit button work")
-      editData({ bread_id,string, integer, float, date, bool })
+      editData({ bread_id, string, integer, float, date, bool })
     }
-   
+
   })
 
+  //to hide and show button Add and Edit in the modals
   $(".btn-add").click(function () {
     $(".btn-add-user").show()
     $(".btn-edit-user").hide()
@@ -31,37 +39,32 @@ $(document).ready(() => {
   })
   $("table tbody").on("click", ".btn-edit", function () {
     console.log($(this).attr("dataId"))
-    let setId=$(this).attr("dataId")
+    let setId = $(this).attr("dataId")
     console.log(typeof setId)
     $(".btn-edit-user").show()
     $(".btn-add-user").hide()
     $(".edit-row").show()
     $("#inputId").val(setId)
-    // value="${$(".btn-edit").attr("dataId")}" 
-    // let html =
-    // $(".modal-body").prepend(html)
+
   });
+  //to delete row
   $("table tbody").on("click", ".btn-delete", function () {
     deleteData($(this).attr("dataId"));
   });
 
-
-  // $(".btn-add").on("click",function(){
-  //   console.log(this)
-  // })
-  // $(".btn-add").click(function(){
-  //   // console.log(this)
-  //   $("#form-popUp").modal('show')
-  // })
   $(".btn-search").on("click", function () {
     console.log(this)
   })
+
+  //to make modals dissapear after click Save or Update button
   $('#saveBtn').click(function () {
     $('#form-popUp').modal('hide');
   });
   $('#updtBtn').click(function () {
     $('#form-popUp').modal('hide');
   });
+
+
 })
 
 
@@ -72,9 +75,9 @@ const loadData = () => {
 
   })
     .done(function (data) {
-      let html = ""
-      data.forEach(e => {
-        html += `<tr>
+      let listTypeData = ""
+      data.list.forEach(e => {
+        listTypeData += `<tr>
                 <th scope="row">${e.bread_id}</th>
                 <td> ${e.string_data}</td>
                 <td>${e.integer_data}</td>
@@ -84,12 +87,53 @@ const loadData = () => {
                 <td>
                 <button type="button" class="btn btn-success btn-edit" data-toggle="modal" data-target="#form-popUp" dataId=${e.bread_id}>edit</button> 
                   <button type ="button" class="btn btn-danger btn-delete" dataId="${e.bread_id}">delete</button>
-                </td>
-                
+                </td> 
               </tr>`
 
       });
-      $("table tbody").html(html)
+      $("table tbody").html(listTypeData)
+      let maxPage = data.totalPage
+      let currentPage = data.currPage
+      let paginationButton = ""
+
+      if (currentPage == 1) {
+        paginationButton +=
+          `<li class="page-item  disabled">
+          <button type="submit"  id="pagination" name="page" value="${Number(currentPage) - 1}"
+          class="page-link">Previous</button>
+      </li>`
+      } else {
+        pagination +=
+          `<li class="page-item">
+            <button type="submit"  id="pagination" name="page" value="${Number(currentPage) - 1}"
+            class="page-link">Previous</button>
+        </li>`
+      }
+      for (let page = 1; page <= maxPage; page++) {
+        if (currentPage === page) {
+          paginationButton += `
+          <li class="page-item active"> 
+            <button type="submit" id="pagination" name="page" value="${page}" class="page-link">${page}</button>
+          </li>`
+        } else {
+          paginationButton +=
+            `<li class="page-item "> 
+            <button type="submit" id="pagination" name="page" value="${page}" class="page-link">${page}</button>
+          </li>`
+        }
+      }
+      if (currentPage == maxPage) {
+        paginationButton += `
+        <li class="page-item  disabled">
+            <button type="submit"  id="pagination" name="page" value="${Number(currentPage) - 1}" class="page-link ">Next</button>
+        </li>`
+      } else {
+        paginationButton += `
+        <li class="page-item ">
+            <button type="submit"  id="pagination" name="page" value="${Number(currentPage) - 1}" class="page-link ">Next</button>
+        </li>`
+      }
+      $("ul.pagination").html(paginationButton)
     }).fail(function (jqXHR, textStatus) {
       alert("Request failed: " + textStatus);
     });
@@ -134,7 +178,7 @@ const editData = (randomType) => {
   $.ajax({
     method: "PUT",
     url: `${API_URL}bread/${randomType.bread_id}`,
-    data:randomType
+    data: randomType
 
 
   }).done(function (data) {
