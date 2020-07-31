@@ -4,9 +4,10 @@ var router = express.Router();
 /* GET home page. */
 module.exports = (db) => {
   router.get('/', function (req, res, next) {
-    db.query('SELECT*FROM bread', (err, data) => {
+    db.query('SELECT*FROM bread ORDER BY bread_id', (err, data) => {
       if (err) return res.status(500).json({ err })
       res.json(data.rows)
+      // console.log(data.rows)
     })
 
   })

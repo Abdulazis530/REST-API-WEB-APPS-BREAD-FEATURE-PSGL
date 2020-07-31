@@ -11,6 +11,12 @@
   <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
   <script src="https://momentjs.com/downloads/moment.js"></script>
 
   <title>Bread PG</title>
@@ -18,7 +24,7 @@
 
 
 <section class="filter">
- 
+
   <nav class="navbar navbar-expand-lg navbar-light ">
     <a class="navbar-brand" href="#"> Bread. </a>
     <ul class="navbar-nav ml-auto">
@@ -42,20 +48,20 @@
 
   <form action="/" method="GET">
     <div class="container">
-      
+
       <h1>Filter</h1>
-     
-        <!-- start of id -->
-        <div class="row">
-          <div class="col-sm-2">
-            <input type="checkbox" name="checkboxId" />
-            <label for="id" class="col-sm-2 col-form-label">ID</label>
-          </div>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="id" name="id" placeholder="ID" autocomplete="off" />
-          </div>
+
+      <!-- start of id -->
+      <div class="row">
+        <div class="col-sm-2">
+          <input type="checkbox" name="checkboxId" />
+          <label for="id" class="col-sm-2 col-form-label">ID</label>
         </div>
-   
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="id" name="id" placeholder="ID" autocomplete="off" />
+        </div>
+      </div>
+
 
       <!-- start of string -->
       <div class="row">
@@ -92,10 +98,10 @@
       <div class="row">
         <div class="col-sm-2">
           <input type="checkbox" name="checkboxDate" />
-          <label for="date" class="col-sm-2 col-form-label">Date</label>
+          <label for="startdate" class="col-sm-2 col-form-label">Date</label>
         </div>
         <div class="col-sm-4">
-          <input type="date" class="form-control" id="date" name="startdate" autocomplete="off"
+          <input type="date" class="form-control" id="startdate" name="startdate" autocomplete="off"
             placeholder="Start Date" />
           <h6 class="form-text">
             to
@@ -104,7 +110,7 @@
       </div>
       <div class="row">
         <div class="col-sm-6">
-          <input type="date" class="end-date form-control" id="date" name="enddate" autocomplete="off"
+          <input type="date" class="end-date form-control" id="enddate" name="enddate" autocomplete="off"
             placeholder="End Date" />
         </div>
       </div>
@@ -131,11 +137,92 @@
       </div>
 
       <!-- end of container -->
-      <button type="submit" name="search" value="clicked" class="btn-input btn btn btn-dark">Submit</button>
+      <button type="submit" name="search" value="clicked" class="btn-input btn btn btn-dark btn-search">Search</button>
     </div>
 
   </form>
 </section>
+
+<div class="modal fade" id="form-popUp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog ">
+    <div class="modal-content bg-aqua ">
+      <div class="modal-header" <h5 class="modal-title" id="exampleModalLabel">Add Data</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+      
+        <form id="change" method="POST">
+          <div class="edit-row form-group row">
+            <label for="inputId" class="col-sm-2 col-form-label">ID</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control bg-secondary text-white" id="inputId" disabled>
+          </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputString" class="col-sm-2 col-form-label">String</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputString" placeholder="String">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="inputInteger" class="col-sm-2 col-form-label">Integer</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputInteger" placeholder="Integer">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="inputFloat" class="col-sm-2 col-form-label">Float</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputFloat" placeholder="Float">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="inputDate" class="col-sm-2 col-form-label">Date</label>
+            <div class="col-sm-10">
+              <input type="date" class="form-control" id="inputDate">
+            </div>
+          </div>
+
+
+
+          <div class="form-group row">
+            <label for="inputBool" class="col-sm-2 col-form-label">Boolean</label>
+
+            <select name="inputBool" class="select-modal form-control " id="inputBool">
+              <option selected>
+                <p class="op-selected">Choose...</p>
+              </option>
+              <option name="true" value="true">
+                <p class="op-selected">True</p>
+              </option>
+              <option name="false" value="false">
+                <p class="op-selected">False</p>
+              </option>
+            </select>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" id ="saveBtn" class="btn btn-primary btn-add-user" >Save</button>
+        <button type="submit" id="updtBtn" class="btn btn-primary btn-edit-user" >update</button>
+      </div>
+      </form>
+    </div>
+
+<div class="dunno">
+
+</div>
+
+
+  </div>
+</div>
 
 <section id="show-tables">
 
@@ -154,35 +241,9 @@
         </tr>
       </thead>
       <tbody>
-        
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form>
-                  <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Recipient:</label>
-                    <input type="text" class="form-control" id="recipient-name">
-                  </div>
-                  <div class="form-group">
-                    <label for="message-text" class="col-form-label">Message:</label>
-                    <textarea class="form-control" id="message-text"></textarea>
-                  </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Send message</button>
-              </div>
-            </div>
-          </div>
-        </div>
+
+
+
       </tbody>
     </table>
   </div>
@@ -192,9 +253,10 @@
 <section id="paginations">
 
 
-<div class="container">
-  <button type="submit" name="search" value="clicked" class="btn-input btn btn-dark">Submit</button>
-</div>
+  <div class="container">
+    <button type="submit" name="add" value="clicked" class="btn-input btn btn-dark btn-add" data-toggle="modal"
+      data-target="#form-popUp">Add</button>
+  </div>
 
 
 
@@ -207,7 +269,7 @@
 <footer>
   <section id="footer">
     <div class="footer-container container-fluid">
-      <p class="copy-right text-center text-md-left">
+      <p class="copy-right text-center text-md-center">
         © 2020 Copyright: Abdul Azis
       </p>
       <i class="social-icon fab fa-facebook-f"></i>
