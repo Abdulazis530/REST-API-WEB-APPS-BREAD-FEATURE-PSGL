@@ -46,7 +46,7 @@
     </ul>
   </nav>
 
-  <form action="/" method="GET">
+  <form id="search-fitur">
     <div class="container">
 
       <h1>Filter</h1>
@@ -54,11 +54,11 @@
       <!-- start of id -->
       <div class="row">
         <div class="col-sm-2">
-          <input type="checkbox" name="checkboxId" />
+          <input type="checkbox" name="checkboxId" class="checkboxId" />
           <label for="id" class="col-sm-2 col-form-label">ID</label>
         </div>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="id" name="id" placeholder="ID" autocomplete="off" />
+          <input type="text" class="form-control browseId" id="id" name="id" placeholder="ID" autocomplete="on" />
         </div>
       </div>
 
@@ -66,42 +66,42 @@
       <!-- start of string -->
       <div class="row">
         <div class="col-sm-2">
-          <input type="checkbox" name="checkboxString" />
+          <input type="checkbox" name="checkboxString" class="checkboxString" />
           <label for="string" class="col-sm-2 col-form-label">String</label>
         </div>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="string" name="string" placeholder="String" autocomplete="off" />
+          <input type="text" class="form-control browseString" id="string" name="string" placeholder="String" autocomplete="off" />
         </div>
       </div>
       <!-- start of integer -->
       <div class="row">
         <div class="col-sm-2">
-          <input type="checkbox" name="checkboxInteger" />
+          <input type="checkbox" name="checkboxInteger" class="checkboxInteger"/>
           <label for="integer" class="col-sm-2 col-form-label">Integer</label>
         </div>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="integer" name="integer" autocomplete="off"
+          <input type="text" class="form-control browseInteger" id="integer" name="integer" autocomplete="off"
             placeholder="Integer" />
         </div>
       </div>
       <!-- start of float -->
       <div class="row">
         <div class="col-sm-2">
-          <input type="checkbox" name="checkboxFloat" />
+          <input type="checkbox" name="checkboxFloat" class="checkboxFloat"/>
           <label for="float" class="col-sm-2 col-form-label">Float</label>
         </div>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="float" name="float" autocomplete="off" placeholder="Float" />
+          <input type="text" class="form-control browseFloat" id="float" name="float" autocomplete="off" placeholder="Float" />
         </div>
       </div>
       <!-- start of date -->
       <div class="row">
         <div class="col-sm-2">
-          <input type="checkbox" name="checkboxDate" />
+          <input type="checkbox" name="checkboxDate" class ="checkboxDate"/>
           <label for="startdate" class="col-sm-2 col-form-label">Date</label>
         </div>
         <div class="col-sm-4">
-          <input type="date" class="form-control" id="startdate" name="startdate" autocomplete="off"
+          <input type="date" class="form-control browseStartDate" id="startdate" name="startdate" autocomplete="off"
             placeholder="Start Date" />
           <h6 class="form-text">
             to
@@ -110,7 +110,7 @@
       </div>
       <div class="row">
         <div class="col-sm-6">
-          <input type="date" class="end-date form-control" id="enddate" name="enddate" autocomplete="off"
+          <input type="date" class="end-date form-control browseEndDate" id="enddate" name="enddate" autocomplete="off"
             placeholder="End Date" />
         </div>
       </div>
@@ -118,11 +118,11 @@
       <!-- start of bolean -->
       <div class="row">
         <div class="col-sm-2">
-          <input type="checkbox" name="checkboxBoolean" />
+          <input type="checkbox" name="checkboxBoolean" class="checkboxBool"/>
           <label for="float" class="col-sm-2 col-form-label">Boolean</label>
         </div>
         <div class="col-sm-10">
-          <select name="bool" class="custom-select mr-sm-2" id="bolean">
+          <select name="bool" class="custom-select mr-sm-2 browseBool" id="boolean">
             <option selected>
               <p class="op-selected">Choose...</p>
             </option>
@@ -155,18 +155,23 @@
       </div>
       <div class="modal-body">
         <form id="change" method="POST">
+
+          <!-- star of Id -->
           <div class="edit-row form-group row">
             <label for="inputId" class="col-sm-2 col-form-label">ID</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control bg-secondary text-white" id="inputId" disabled>
+            <div class="col-sm-10">
+              <input type="text" class="form-control bg-secondary text-white" id="inputId" disabled>
+            </div>
           </div>
-          </div>
+          <!-- start of string -->
           <div class="form-group row">
             <label for="inputString" class="col-sm-2 col-form-label">String</label>
             <div class="col-sm-10">
               <input type="text" class="form-control" id="inputString" placeholder="String">
             </div>
           </div>
+
+          <!-- start of Integer -->
 
           <div class="form-group row">
             <label for="inputInteger" class="col-sm-2 col-form-label">Integer</label>
@@ -175,6 +180,7 @@
             </div>
           </div>
 
+          <!-- start of Float -->
           <div class="form-group row">
             <label for="inputFloat" class="col-sm-2 col-form-label">Float</label>
             <div class="col-sm-10">
@@ -182,6 +188,7 @@
             </div>
           </div>
 
+          <!-- start of Date -->
           <div class="form-group row">
             <label for="inputDate" class="col-sm-2 col-form-label">Date</label>
             <div class="col-sm-10">
@@ -189,6 +196,7 @@
             </div>
           </div>
 
+          <!-- start of Bool -->
           <div class="form-group row">
             <label for="inputBool" class="col-sm-2 col-form-label">Boolean</label>
 
@@ -207,8 +215,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" id ="saveBtn" class="btn btn-primary btn-add-user" >Save</button>
-        <button type="submit" id="updtBtn" class="btn btn-primary btn-edit-user" >update</button>
+        <button type="submit" id="saveBtn" class="btn btn-primary btn-add-user">Save</button>
+        <button type="submit" id="updtBtn" class="btn btn-primary btn-edit-user">update</button>
       </div>
       </form>
     </div>
@@ -244,15 +252,15 @@
 </section>
 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button> -->
 <section id="paginations-sec">
-  
-    <div class="container">
-      <nav aria-label="Page navigation ">
-        <ul class="pagination">
+
+  <div class="container">
+    <nav aria-label="Page navigation ">
+      <ul class="pagination">
 
 
-        </ul>
-      </nav>
-    </div>
+      </ul>
+    </nav>
+  </div>
 
 
 </section>

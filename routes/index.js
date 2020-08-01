@@ -4,29 +4,114 @@ var router = express.Router();
 /* GET home page. */
 module.exports = (db) => {
 
-
+  const conditionSql = []
+  const conditionSqlAll = []
+  const conditionParam = []
   router.get('/', function (req, res, next) {
-    let currPage = req.query.page || 1
+
     const limit = 5
-      db.query('SELECT COUNT(*) as total FROM bread', (err, data1) => {
-        if (err) return res.status(500).json({ err })
-        
-        db.query(`SELECT*FROM bread LIMIT ${limit} OFFSET ${(currPage * limit) - limit}`, (err, data2) => {
+
+    if (req.query.fiturBrowser === "yes" || req.query.pageBrowse) {
+      let currPageBrowse = req.query.pageBrowse || 1
+
+      let counter = 1
+
+      for (let key in req.query) {
+        if (key !== "clicked") {
+          if (key === "id") {
+            conditionSql.push(`bread_id=$${counter}`)
+            conditionParam.push(Number(req.query.id))
+            counter++
+
+          }
+          if (key === "string") {
+            conditionSql.push(`string_data LIKE $${counter}`)
+            conditionParam.push(req.query.string)
+            counter++
+
+          }
+          if (key === "integer") {
+            conditionSql.push(`integer_data=$${counter}`)
+            conditionParam.push(Number(req.query.integer))
+            counter++
+
+          }
+          if (key === "float") {
+            conditionSql.push(`float_data=$${counter}`)
+            conditionParam.push(Number(req.query.float))
+            counter++
+
+          }
+          if (key === "stardate") {
+            conditionSql.push(`(date_data BETWEEN $${counter} AND $${counter + 1})`)
+            conditionParam.push(req.query.stardate, req.query.enddate)
+            counter += 2
+
+          }
+          if (key === "bool") {
+            conditionSql.push(`boolean_data=$${counter}`)
+            conditionParam.push(req.query.bool)
+            counter++
+
+          }
+
+        }
+      }
+
+      const sqlQuery = conditionSql.join(" OR ")
+
+
+
+
+      console.log(sqlQuery)
+      console.log(conditionParam)
+      db.query(`SELECT COUNT(*) as total FROM bread WHERE ${sqlQuery};`, conditionParam, (err, data1) => {
+        if (err) {
+          return res.status(500).json({ err })
+        }
+
+        conditionParam.push(limit, (currPageBrowse * limit - limit))
+
+        db.query(`SELECT*FROM bread WHERE ${sqlQuery} LIMIT $${counter} OFFSET $${counter + 1} `, conditionParam, (err, data2) => {
+
           if (err) return res.status(500).json({ err })
-          const totalData=data1.rows[0].total
+          const totalData = data1.rows[0].total
           console.log(totalData)
-          const totalPage=Math.ceil(totalData/limit)
-          let list=data2.rows
+          const totalPageBrowse = Math.ceil(totalData / limit)
+          let listBrowse = data2.rows
+          console.log(totalPageBrowse)
+          console.log(listBrowse)
+          console.log(currPageBrowse)
+          // res.json({ totalPageBrowse, listBrowse, currPageBrowse })
 
-          res.json({totalPage,list,currPage})
-        
-          // res.json(data2,data1)
+
         })
-       
-        // console.log(data.rows)
-      })
-    
 
+      })
+
+    } else {
+      let currPage = req.query.page || 1
+      db.query('SELECT COUNT(*) as total FROM bread ', (err, data1) => {
+        if (err) return res.status(500).json({ err })
+
+        db.query(`SELECT*FROM bread ORDER BY bread_id LIMIT $1 OFFSET $2 `, [limit, ((currPage * limit) - limit)], (err, data2) => {
+          if (err) return res.status(500).json({ err })
+          const totalData = data1.rows[0].total
+          console.log(totalData)
+          const totalPage = Math.ceil(totalData / limit)
+          let list = data2.rows
+          if (currPage > totalPage) {
+            res.json({ error: "error" })
+          }
+          res.json({ totalPage, list, currPage })
+
+
+        })
+
+
+      })
+
+    }
 
   })
 

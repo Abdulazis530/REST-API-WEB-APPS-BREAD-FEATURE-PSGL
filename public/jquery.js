@@ -3,16 +3,10 @@ const API_URL = "http://localhost:4000/api/"
 
 
 $(document).ready(() => {
+  let browseArr = []
   //load all data
   loadData()
 
-  //for page button submit
-  // $("#formPagi").submit((event) =>{
-  //   event.preventDefault()
-  //   console.log("wkwkwk")
-  //   let page = $(`#pagination`).val()
-  //   loadData(page)
-  // })
 
   //for Add and Edit Fitur
   $('#change').submit((event) => {
@@ -53,9 +47,6 @@ $(document).ready(() => {
     deleteData($(this).attr("dataId"));
   });
 
-  $(".btn-search").on("click", function () {
-    console.log(this)
-  })
 
   //to make modals dissapear after click Save or Update button
   $('#saveBtn').click(function () {
@@ -65,19 +56,72 @@ $(document).ready(() => {
     $('#form-popUp').modal('hide');
   });
 
+  //pagination
   $("ul.pagination").on("click", "#pagination", function (event) {
-    let page=$(this).val()
-   
-    loadData(page)
+    let page = $(this).val()
+
+    loadData({ page })
     $(`li.pg${page}`).addClass("active")
 
+  })
+
+  //targetting all stuff that needed for make browse fitur
+  $(".checkboxId").click(function () {
+    console.log($(this).val())
+    console.log($("#id").val())
+  })
+  $(".btn-search").click(function (event) {
+    event.preventDefault()
+    console.log(this)
+    if ($(".checkboxId").val() === "on" && $("#id").val().length != 0) browseArr.push(`id=${$("#id").val()}`)
+    if ($(".checkboxString").val() === "on" && $("#string").val().length != 0) browseArr.push(`string=${$("#string").val()}`)
+    if ($(".checkboxInteger").val() === "on" && $("#integer").val().length != 0) browseArr.push(`integer=${$("#integer").val()}`)
+    if ($(".checkboxFloat").val() === "on" && $("#float").val().length != 0) browseArr.push(`float=${$("#float").val()}`)
+    if ($(".checkboxDate").val() === "on" && $("#startdate").val().length != 0 && $("#enddate").val().length != 0) browseArr.push(`stardate=${$("#startdate").val()}`, `enddate=${$("#enddate").val()}`)
+    if ($(".checkboxBool").val() === "on" && $("#boolean").val() != "Choose...") browseArr.push(`bool=${$("#boolean").val()}`)
+
+
+    if (browseArr.length > 0) {
+
+      browseArr.push('fiturBrowser=yes')
+      let queryBrowse = browseArr.join("&")
+      console.log(queryBrowse)
+      loadData({ queryBrowse })
+      browseArr = []
+
+    }
+    else {
+      loadData()
+    }
+    $(".checkboxId").prop("checked", false)
+    $(".checkboxString").prop("checked", false)
+    $(".checkboxInteger").prop("checked", false)
+    $(".checkboxFloat").prop("checked", false)
+    $(".checkboxDate").prop("checked", false)
+    $(".checkboxBool").prop("checked", false)
+    $("#id").val("")
+    $("#string").val("")
+    $("#integer").val("")
+    $("#float").val("")
+    $("#startdate").val("")
+    $("#enddate").val("")
+    $("#boolean").val("Choose...")
   })
 
 })
 
 
-const loadData = (reqPage) => {
-  let request = typeof reqPage === "undefined" ? { method: "GET", url: `${API_URL}bread` } : { method: "GET", url: `${API_URL}bread?page=${reqPage}` }
+const loadData = (obj) => {
+  console.log(obj)
+  let request
+  if (typeof obj === "undefined") {
+    request = { method: "GET", url: `${API_URL}bread` }
+  } else if (obj.page) {
+    request = { method: "GET", url: `${API_URL}bread?page=${obj.page}` }
+  } else if (obj.queryBrowse) {
+    request = { method: "GET", url: `${API_URL}bread?${obj.queryBrowse}` }
+  }
+  // let request = typeof reqPage === "undefined" ? { method: "GET", url: `${API_URL}bread` } : { method: "GET", url: `${API_URL}bread?page=${reqPage}` }
   $.ajax(request)
     .done(function (data) {
       console.log(data)
