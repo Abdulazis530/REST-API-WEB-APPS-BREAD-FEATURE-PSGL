@@ -7,15 +7,16 @@ $(document).ready(() => {
   loadData()
 
   //for page button submit
-  $("#formPagi").submit((event) =>{
-    event.preventDefault()
-    let page = $(`#pagination`).val()
-    console.log(page)
-  })
-  /
-  //for Add and Edit Fitur
-  $('#change').submit((event)=>{
+  // $("#formPagi").submit((event) =>{
+  //   event.preventDefault()
+  //   console.log("wkwkwk")
+  //   let page = $(`#pagination`).val()
+  //   loadData(page)
+  // })
 
+  //for Add and Edit Fitur
+  $('#change').submit((event) => {
+    console.log("it in herer")
     event.preventDefault()
     let bread_id = $('#inputId').val()
     let string = $('#inputString').val()
@@ -64,17 +65,22 @@ $(document).ready(() => {
     $('#form-popUp').modal('hide');
   });
 
+  $("ul.pagination").on("click", "#pagination", function (event) {
+    let page=$(this).val()
+   
+    loadData(page)
+    $(`li.pg${page}`).addClass("active")
+
+  })
 
 })
 
 
-const loadData = () => {
-  $.ajax({
-    method: "GET",
-    url: `${API_URL}bread`,
-
-  })
+const loadData = (reqPage) => {
+  let request = typeof reqPage === "undefined" ? { method: "GET", url: `${API_URL}bread` } : { method: "GET", url: `${API_URL}bread?page=${reqPage}` }
+  $.ajax(request)
     .done(function (data) {
+      console.log(data)
       let listTypeData = ""
       data.list.forEach(e => {
         listTypeData += `<tr>
@@ -103,34 +109,34 @@ const loadData = () => {
           class="page-link">Previous</button>
       </li>`
       } else {
-        pagination +=
-          `<li class="page-item">
+        paginationButton +=
+          `<li class="page-item ">
             <button type="submit"  id="pagination" name="page" value="${Number(currentPage) - 1}"
             class="page-link">Previous</button>
         </li>`
       }
       for (let page = 1; page <= maxPage; page++) {
-        if (currentPage === page) {
+        if (currentPage == page) {
           paginationButton += `
-          <li class="page-item active"> 
-            <button type="submit" id="pagination" name="page" value="${page}" class="page-link">${page}</button>
+          <li class="page-item active pg-${page}"> 
+            <button type="submit" id="pagination" name="page" value="${page}" class="page-link ">${page}</button>
           </li>`
         } else {
           paginationButton +=
-            `<li class="page-item "> 
+            `<li class="page-item pg-${page}"> 
             <button type="submit" id="pagination" name="page" value="${page}" class="page-link">${page}</button>
           </li>`
         }
       }
       if (currentPage == maxPage) {
         paginationButton += `
-        <li class="page-item  disabled">
-            <button type="submit"  id="pagination" name="page" value="${Number(currentPage) - 1}" class="page-link ">Next</button>
+        <li class="page-item  disabled ">
+            <button type="submit"  id="pagination" name="page" value="${Number(currentPage) + 1}" class="page-link ">Next</button>
         </li>`
       } else {
         paginationButton += `
         <li class="page-item ">
-            <button type="submit"  id="pagination" name="page" value="${Number(currentPage) - 1}" class="page-link ">Next</button>
+            <button type="submit"  id="pagination" name="page" value="${Number(currentPage) + 1}" class="page-link ">Next</button>
         </li>`
       }
       $("ul.pagination").html(paginationButton)
