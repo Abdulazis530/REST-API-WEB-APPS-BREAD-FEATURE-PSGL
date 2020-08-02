@@ -88,14 +88,11 @@ $(document).ready(() => {
     if ($(".checkboxDate").prop('checked') === true && $("#startdate").val().length != 0 && $("#enddate").val().length != 0) browseArr.push(`stardate=${$("#startdate").val()}`, `enddate=${$("#enddate").val()}`)
     if ($(".checkboxBool").prop('checked') === true && $("#boolean").val() != "Choose...") browseArr.push(`bool=${$("#boolean").val()}`)
 
-    console.log(browseArr.length)
-    console.log(typeof browseArr[0])
+
     if (browseArr.length > 0) {
 
       browseArr.push('fiturBrowser=yes')
       queryBrowse = browseArr.join("&")
-      // queryForBrowsePagi = queryBrowse
-      console.log(`inside of btn search ${queryBrowse}`)
       loadData({ queryBrowse })
       browseArr = []
 
@@ -138,8 +135,6 @@ const loadData = (obj) => {
 
   $.ajax(request)
     .done(function (data) {
-      console.log(`its'here`)
-      console.log(data)
 
       let totalPageFrom
       let listFrom
@@ -158,7 +153,7 @@ const loadData = (obj) => {
 
       let listTypeData = ""
       const display = (totalPage, list, currPage, fitur) => {
-        console.log(`in the display function wkwkkw ${queryBrowse}`)
+
         let nameClass = data[fitur] || ""
         data[list].forEach(e => {
           listTypeData += `<tr>
@@ -251,7 +246,7 @@ const deleteData = (id) => {
 
 
   }).done(function (data) {
-    console.log("good")
+
     if (typeof queryBrowse === "undefined") {
       loadData()
     } else {
@@ -270,7 +265,7 @@ const editData = (randomType) => {
 
 
   }).done(function (data) {
-    console.log("good")
+
     if (typeof queryBrowse === "undefined") {
       loadData()
     } else {

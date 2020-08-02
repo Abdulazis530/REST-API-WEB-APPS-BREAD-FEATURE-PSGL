@@ -59,11 +59,6 @@ module.exports = (db) => {
 
       const sqlQuery = conditionSql.join(" OR ")
 
-
-
-
-      console.log(sqlQuery)
-      console.log(conditionParam)
       db.query(`SELECT COUNT(*) as total FROM bread WHERE ${sqlQuery};`, conditionParam, (err, data1) => {
         if (err) {
           return res.status(500).json({ err })
@@ -76,7 +71,7 @@ module.exports = (db) => {
           conditionSql = []
           if (err) return res.status(500).json({ err })
           const totalData = data1.rows[0].total
-          console.log(totalData)
+
           const totalPageBrowse = Math.ceil(totalData / limit)
           let listBrowse = data2.rows
           let fiturBrowser = req.query.fiturBrowser

@@ -2,13 +2,13 @@
   font-family: ubuntu;
   font-size: 3rem;
   font-weight: bold;
-  color: black
-
+  color: white;
 }
 
-.hidden{
+.hidden {
   display: none;
 }
+
 a.navbar-brand {
   position: relative;
   left: 150px;
@@ -23,13 +23,26 @@ h1 {
 }
 
 .navbar {
- 
-  margin-bottom: 50px;
+  background-color: #343a40 !important;
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  z-index: 100;
 
+}
+
+#search-fitur {
+  margin-top: 200px;
+}
+
+#show-tables {
+  margin-top: 100px;
+  margin-bottom: 50px;
 }
 
 ul.navbar-nav {
   margin-right: 30px;
+
 }
 
 .nav-item {
@@ -37,12 +50,30 @@ ul.navbar-nav {
 
 }
 
+.container-edit {
+  margin: auto;
+  border: #529594 solid 1px;
+  border-radius: 30px;
+  background-color: #343a40 !important;
+  width: 1200px;
+  color: white;
 
+
+}
+
+
+.container-edit h1 {
+  margin-bottom: 30px;
+}
+
+.inner-container {
+  padding-top: 30px;
+}
 
 body {
   /* background-color: #45515c; */
   background-color: #B2E0DF;
-  color: white;
+  color: black;
   font-family: ubuntu;
 
 }
@@ -63,18 +94,8 @@ h6 {
   margin-top: 30px;
 }
 
-
-
-
-
-
-
-
-
-
 .custom-select {
   color: black;
-  /* border: none; */
 
 }
 
@@ -86,7 +107,7 @@ h6 {
 .end-date {
   position: relative;
   width: 65%;
-  margin-left: 190px;
+  margin-left: 185px;
 }
 
 .row {
@@ -131,17 +152,6 @@ h6 {
   text-decoration: none;
 }
 
-/* .page-link {
-  border-color: #45515c;
-  color: white;
-} */
-
-/* .page-link:hover {
-  border-color: #45515c;
-  color: white;
-} */
-
-
 #footer {
   margin-top: 100px;
   height: 200px;
@@ -152,11 +162,15 @@ h6 {
 .footer-container {
   margin-top: 30px;
   position: absolute;
+  color: white;
 }
-p.copy-right{
+
+p.copy-right {
   margin-top: 30px;
 }
+
 .social-icon {
   margin: 10px 10px 10px 10px;
 }
+
 /* Rectangle 11 */

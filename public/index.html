@@ -25,7 +25,7 @@
 
 <section class="filter">
 
-  <nav class="navbar navbar-expand-lg navbar-light ">
+  <nav class="navbar navbar-expand-lg navbar-dark ">
     <a class="navbar-brand" href="#"> Bread. </a>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
@@ -47,99 +47,103 @@
   </nav>
 
   <form id="search-fitur">
-    <div class="container">
-
-      <h1>Filter</h1>
-
-      <!-- start of id -->
-      <div class="row">
-        <div class="col-sm-2">
-          <input type="checkbox" name="checkboxId" class="checkboxId" />
-          <label for="id" class="col-sm-2 col-form-label">ID</label>
+    
+    <div class="container container-edit">
+      
+      <div class="container inner-container">
+        <h1>Filter</h1>
+  
+        <!-- start of id -->
+        <div class="row">
+          <div class="col-sm-2">
+            <input type="checkbox" name="checkboxId" class="checkboxId" />
+            <label for="id" class="col-sm-2 col-form-label">ID</label>
+          </div>
+          <div class="col-sm-10">
+            <input type="text" class="form-control browseId" id="id" name="id" placeholder="ID" autocomplete="on" />
+          </div>
         </div>
-        <div class="col-sm-10">
-          <input type="text" class="form-control browseId" id="id" name="id" placeholder="ID" autocomplete="on" />
+  
+  
+        <!-- start of string -->
+        <div class="row">
+          <div class="col-sm-2">
+            <input type="checkbox" name="checkboxString" class="checkboxString" />
+            <label for="string" class="col-sm-2 col-form-label">String</label>
+          </div>
+          <div class="col-sm-10">
+            <input type="text" class="form-control browseString" id="string" name="string" placeholder="String" autocomplete="off" />
+          </div>
         </div>
+        <!-- start of integer -->
+        <div class="row">
+          <div class="col-sm-2">
+            <input type="checkbox" name="checkboxInteger" class="checkboxInteger"/>
+            <label for="integer" class="col-sm-2 col-form-label">Integer</label>
+          </div>
+          <div class="col-sm-10">
+            <input type="text" class="form-control browseInteger" id="integer" name="integer" autocomplete="off"
+              placeholder="Integer" />
+          </div>
+        </div>
+        <!-- start of float -->
+        <div class="row">
+          <div class="col-sm-2">
+            <input type="checkbox" name="checkboxFloat" class="checkboxFloat"/>
+            <label for="float" class="col-sm-2 col-form-label">Float</label>
+          </div>
+          <div class="col-sm-10">
+            <input type="text" class="form-control browseFloat" id="float" name="float" autocomplete="off" placeholder="Float" />
+          </div>
+        </div>
+        <!-- start of date -->
+        <div class="row">
+          <div class="col-sm-2">
+            <input type="checkbox" name="checkboxDate" class ="checkboxDate"/>
+            <label for="startdate" class="col-sm-2 col-form-label">Date</label>
+          </div>
+          <div class="col-sm-4">
+            <input type="date" class="form-control browseStartDate" id="startdate" name="startdate" autocomplete="off"
+              placeholder="Start Date" />
+            <h6 class="form-text">
+              to
+            </h6>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <input type="date" class="end-date form-control browseEndDate" id="enddate" name="enddate" autocomplete="off"
+              placeholder="End Date" />
+          </div>
+        </div>
+  
+        <!-- start of bolean -->
+        <div class="row">
+          <div class="col-sm-2">
+            <input type="checkbox" name="checkboxBoolean" class="checkboxBool"/>
+            <label for="float" class="col-sm-2 col-form-label">Boolean</label>
+          </div>
+          <div class="col-sm-10">
+            <select name="bool" class="custom-select mr-sm-2 browseBool" id="boolean">
+              <option selected>
+                <p class="op-selected">Choose...</p>
+              </option>
+              <option name="true" value="true">
+                <p class="op-selected">True</p>
+              </option>
+              <option name="false" value="false">
+                <p class="op-selected">False</p>
+              </option>
+            </select>
+          </div>
+        </div>
+  
+        <!-- end of container -->
+        <button type="submit" name="search" value="clicked" class="btn-input btn btn btn-light btn-search">Search</button>
       </div>
-
-
-      <!-- start of string -->
-      <div class="row">
-        <div class="col-sm-2">
-          <input type="checkbox" name="checkboxString" class="checkboxString" />
-          <label for="string" class="col-sm-2 col-form-label">String</label>
-        </div>
-        <div class="col-sm-10">
-          <input type="text" class="form-control browseString" id="string" name="string" placeholder="String" autocomplete="off" />
-        </div>
-      </div>
-      <!-- start of integer -->
-      <div class="row">
-        <div class="col-sm-2">
-          <input type="checkbox" name="checkboxInteger" class="checkboxInteger"/>
-          <label for="integer" class="col-sm-2 col-form-label">Integer</label>
-        </div>
-        <div class="col-sm-10">
-          <input type="text" class="form-control browseInteger" id="integer" name="integer" autocomplete="off"
-            placeholder="Integer" />
-        </div>
-      </div>
-      <!-- start of float -->
-      <div class="row">
-        <div class="col-sm-2">
-          <input type="checkbox" name="checkboxFloat" class="checkboxFloat"/>
-          <label for="float" class="col-sm-2 col-form-label">Float</label>
-        </div>
-        <div class="col-sm-10">
-          <input type="text" class="form-control browseFloat" id="float" name="float" autocomplete="off" placeholder="Float" />
-        </div>
-      </div>
-      <!-- start of date -->
-      <div class="row">
-        <div class="col-sm-2">
-          <input type="checkbox" name="checkboxDate" class ="checkboxDate"/>
-          <label for="startdate" class="col-sm-2 col-form-label">Date</label>
-        </div>
-        <div class="col-sm-4">
-          <input type="date" class="form-control browseStartDate" id="startdate" name="startdate" autocomplete="off"
-            placeholder="Start Date" />
-          <h6 class="form-text">
-            to
-          </h6>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-6">
-          <input type="date" class="end-date form-control browseEndDate" id="enddate" name="enddate" autocomplete="off"
-            placeholder="End Date" />
-        </div>
-      </div>
-
-      <!-- start of bolean -->
-      <div class="row">
-        <div class="col-sm-2">
-          <input type="checkbox" name="checkboxBoolean" class="checkboxBool"/>
-          <label for="float" class="col-sm-2 col-form-label">Boolean</label>
-        </div>
-        <div class="col-sm-10">
-          <select name="bool" class="custom-select mr-sm-2 browseBool" id="boolean">
-            <option selected>
-              <p class="op-selected">Choose...</p>
-            </option>
-            <option name="true" value="true">
-              <p class="op-selected">True</p>
-            </option>
-            <option name="false" value="false">
-              <p class="op-selected">False</p>
-            </option>
-          </select>
-        </div>
-      </div>
-
-      <!-- end of container -->
-      <button type="submit" name="search" value="clicked" class="btn-input btn btn btn-dark btn-search">Search</button>
+  
     </div>
-
+   
   </form>
 </section>
 
@@ -227,7 +231,7 @@
 
 <section id="show-tables">
 
-
+<div class="container  container-table">
   <div class="edit-tables table-lg container">
     <table class="table table-striped table-light">
       <thead>
@@ -248,6 +252,7 @@
       </tbody>
     </table>
   </div>
+</div>
 
 </section>
 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button> -->
