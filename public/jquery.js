@@ -1,16 +1,17 @@
 
 const API_URL = "http://localhost:4000/api/"
 
-
+let browseArr = []
+let queryBrowse
 $(document).ready(() => {
-  let browseArr = []
+
   //load all data
   loadData()
 
 
   //for Add and Edit Fitur
   $('#change').submit((event) => {
-    console.log("it in herer")
+
     event.preventDefault()
     let bread_id = $('#inputId').val()
     let string = $('#inputString').val()
@@ -33,9 +34,9 @@ $(document).ready(() => {
     $(".edit-row").hide()
   })
   $("table tbody").on("click", ".btn-edit", function () {
-    console.log($(this).attr("dataId"))
+
     let setId = $(this).attr("dataId")
-    console.log(typeof setId)
+
     $(".btn-edit-user").show()
     $(".btn-add-user").hide()
     $(".edit-row").show()
@@ -60,37 +61,44 @@ $(document).ready(() => {
   $("ul.pagination").on("click", "#pagination", function (event) {
     let page = $(this).val()
 
-    loadData({ page })
+    if (typeof queryBrowse === "undefined") {
+      loadData({ page })
+    } else {
+      loadData({ pageBrowse: page })
+    }
+
+    loadData
     $(`li.pg${page}`).addClass("active")
 
   })
 
   //targetting all stuff that needed for make browse fitur
-  $(".checkboxId").click(function () {
-    console.log($(this).val())
-    console.log($("#id").val())
-  })
+
   $(".btn-search").click(function (event) {
     event.preventDefault()
-    console.log(this)
-    if ($(".checkboxId").val() === "on" && $("#id").val().length != 0) browseArr.push(`id=${$("#id").val()}`)
-    if ($(".checkboxString").val() === "on" && $("#string").val().length != 0) browseArr.push(`string=${$("#string").val()}`)
-    if ($(".checkboxInteger").val() === "on" && $("#integer").val().length != 0) browseArr.push(`integer=${$("#integer").val()}`)
-    if ($(".checkboxFloat").val() === "on" && $("#float").val().length != 0) browseArr.push(`float=${$("#float").val()}`)
-    if ($(".checkboxDate").val() === "on" && $("#startdate").val().length != 0 && $("#enddate").val().length != 0) browseArr.push(`stardate=${$("#startdate").val()}`, `enddate=${$("#enddate").val()}`)
-    if ($(".checkboxBool").val() === "on" && $("#boolean").val() != "Choose...") browseArr.push(`bool=${$("#boolean").val()}`)
 
+    if ($(".checkboxId").prop('checked') === true && $("#id").val().length != 0) browseArr.push(`id=${$("#id").val()}`)
+    if ($(".checkboxString").prop('checked') === true && $("#string").val().length != 0) browseArr.push(`string=${$("#string").val()}`)
+    if ($(".checkboxInteger").prop('checked') === true && $("#integer").val().length != 0) browseArr.push(`integer=${$("#integer").val()}`)
+    if ($(".checkboxFloat").prop('checked') === true && $("#float").val().length != 0) browseArr.push(`float=${$("#float").val()}`)
+    if ($(".checkboxDate").prop('checked') === true && $("#startdate").val().length != 0 && $("#enddate").val().length != 0) browseArr.push(`stardate=${$("#startdate").val()}`, `enddate=${$("#enddate").val()}`)
+    if ($(".checkboxBool").prop('checked') === true && $("#boolean").val() != "Choose...") browseArr.push(`bool=${$("#boolean").val()}`)
 
+    console.log(browseArr.length)
+    console.log(typeof browseArr[0])
     if (browseArr.length > 0) {
 
       browseArr.push('fiturBrowser=yes')
-      let queryBrowse = browseArr.join("&")
-      console.log(queryBrowse)
+      queryBrowse = browseArr.join("&")
+      // queryForBrowsePagi = queryBrowse
+      console.log(`inside of btn search ${queryBrowse}`)
       loadData({ queryBrowse })
       browseArr = []
 
+
     }
     else {
+      queryBrowse = ""
       loadData()
     }
     $(".checkboxId").prop("checked", false)
@@ -112,7 +120,7 @@ $(document).ready(() => {
 
 
 const loadData = (obj) => {
-  console.log(obj)
+
   let request
   if (typeof obj === "undefined") {
     request = { method: "GET", url: `${API_URL}bread` }
@@ -120,70 +128,95 @@ const loadData = (obj) => {
     request = { method: "GET", url: `${API_URL}bread?page=${obj.page}` }
   } else if (obj.queryBrowse) {
     request = { method: "GET", url: `${API_URL}bread?${obj.queryBrowse}` }
+  } else {
+    request = { method: "GET", url: `${API_URL}bread?${queryBrowse}&pageBrowse=${obj.pageBrowse}` }
   }
   // let request = typeof reqPage === "undefined" ? { method: "GET", url: `${API_URL}bread` } : { method: "GET", url: `${API_URL}bread?page=${reqPage}` }
   $.ajax(request)
     .done(function (data) {
+      console.log(`its'here`)
       console.log(data)
-      let listTypeData = ""
-      data.list.forEach(e => {
-        listTypeData += `<tr>
-                <th scope="row">${e.bread_id}</th>
-                <td> ${e.string_data}</td>
-                <td>${e.integer_data}</td>
-                <td>${e.float_data}</td>
-                <td>${moment(e.date_data).format('YYYY-MM-DD')}</td>
-                <td>${e.boolean_data}</td>
-                <td>
-                <button type="button" class="btn btn-success btn-edit" data-toggle="modal" data-target="#form-popUp" dataId=${e.bread_id}>edit</button> 
-                  <button type ="button" class="btn btn-danger btn-delete" dataId="${e.bread_id}">delete</button>
-                </td> 
-              </tr>`
 
-      });
-      $("table tbody").html(listTypeData)
-      let maxPage = data.totalPage
-      let currentPage = data.currPage
-      let paginationButton = ""
-
-      if (currentPage == 1) {
-        paginationButton +=
-          `<li class="page-item  disabled">
-          <button type="submit"  id="pagination" name="page" value="${Number(currentPage) - 1}"
-          class="page-link">Previous</button>
-      </li>`
+      let totalPageFrom
+      let listFrom
+      let currPageFrom
+      let fiturBrowser
+      if (data.fiturBrowser) {
+        totalPageFrom = "totalPageBrowse"
+        listFrom = "listBrowse"
+        currPageFrom = "currPageBrowse"
+        fiturBrowser = "fiturBrowser"
       } else {
-        paginationButton +=
-          `<li class="page-item ">
-            <button type="submit"  id="pagination" name="page" value="${Number(currentPage) - 1}"
-            class="page-link">Previous</button>
-        </li>`
+        totalPageFrom = "totalPage"
+        listFrom = "list"
+        currPageFrom = "currPage"
       }
-      for (let page = 1; page <= maxPage; page++) {
-        if (currentPage == page) {
-          paginationButton += `
-          <li class="page-item active pg-${page}"> 
-            <button type="submit" id="pagination" name="page" value="${page}" class="page-link ">${page}</button>
-          </li>`
+
+      let listTypeData = ""
+      const display = (totalPage, list, currPage, fitur) => {
+        console.log(`in the display function wkwkkw ${queryBrowse}`)
+        let nameClass = data[fitur] || ""
+        data[list].forEach(e => {
+          listTypeData += `<tr>
+                  <th scope="row">${e.bread_id}</th>
+                  <td> ${e.string_data}</td>
+                  <td>${e.integer_data}</td>
+                  <td>${e.float_data}</td>
+                  <td>${moment(e.date_data).format('YYYY-MM-DD')}</td>
+                  <td>${e.boolean_data}</td>
+                  <td>
+                  <button type="button" class="btn btn-success btn-edit" data-toggle="modal" data-target="#form-popUp" dataId=${e.bread_id}>edit</button> 
+                    <button type ="button" class="btn btn-danger btn-delete" dataId="${e.bread_id}">delete</button>
+                  </td> 
+                </tr>`
+
+        });
+        $("table tbody").html(listTypeData)
+        let maxPage = data[totalPage]
+        let currentPage = data[currPage]
+        let paginationButton = ""
+
+        if (currentPage == 1) {
+          paginationButton +=
+            `<li class="page-item  disabled">
+            <button type="submit"  id="pagination" name="page" value="${Number(currentPage) - 1}"
+            class="page-link ${nameClass}">Previous</button>
+        </li>`
         } else {
           paginationButton +=
-            `<li class="page-item pg-${page}"> 
-            <button type="submit" id="pagination" name="page" value="${page}" class="page-link">${page}</button>
+            `<li class="page-item ">
+              <button type="submit"  id="pagination" name="page"  value="${Number(currentPage) - 1}"
+              class="page-link ${nameClass}">Previous</button>
           </li>`
         }
+        for (let page = 1; page <= maxPage; page++) {
+          if (currentPage == page) {
+            paginationButton += `
+            <li class="page-item active pg-${page}"> 
+              <button type="submit" id="pagination" name="page" value="${page}" class="page-link ${nameClass} ">${page}</button>
+            </li>`
+          } else {
+            paginationButton +=
+              `<li class="page-item pg-${page}"> 
+              <button type="submit" id="pagination" name="page" value="${page}" class="page-link ${nameClass}">${page}</button>
+            </li>`
+          }
+        }
+        if (currentPage == maxPage) {
+          paginationButton += `
+          <li class="page-item  disabled ">
+              <button type="submit"  id="pagination" name="page" value="${Number(currentPage) + 1}" class="page-link ${nameClass} ">Next</button>
+          </li>`
+        } else {
+          paginationButton += `
+          <li class="page-item ">
+              <button type="submit"  id="pagination" name="page" value="${Number(currentPage) + 1}" class="page-link ${nameClass} ">Next</button>
+          </li>`
+        }
+        $("ul.pagination").html(paginationButton)
       }
-      if (currentPage == maxPage) {
-        paginationButton += `
-        <li class="page-item  disabled ">
-            <button type="submit"  id="pagination" name="page" value="${Number(currentPage) + 1}" class="page-link ">Next</button>
-        </li>`
-      } else {
-        paginationButton += `
-        <li class="page-item ">
-            <button type="submit"  id="pagination" name="page" value="${Number(currentPage) + 1}" class="page-link ">Next</button>
-        </li>`
-      }
-      $("ul.pagination").html(paginationButton)
+      display(totalPageFrom, listFrom, currPageFrom, fiturBrowser)
+
     }).fail(function (jqXHR, textStatus) {
       alert("Request failed: " + textStatus);
     });
@@ -239,3 +272,64 @@ const editData = (randomType) => {
     alert("Request failed: " + textStatus);
   });
 }
+// const display = (data, totalPage, list, currPage, fitur) => {
+//   let nameClass = data[fitur] || ""
+//   data[list].forEach(e => {
+//     listTypeData += `<tr>
+//             <th scope="row">${e.bread_id}</th>
+//             <td> ${e.string_data}</td>
+//             <td>${e.integer_data}</td>
+//             <td>${e.float_data}</td>
+//             <td>${moment(e.date_data).format('YYYY-MM-DD')}</td>
+//             <td>${e.boolean_data}</td>
+//             <td>
+//             <button type="button" class="btn btn-success btn-edit" data-toggle="modal" data-target="#form-popUp" dataId=${e.bread_id}>edit</button> 
+//               <button type ="button" class="btn btn-danger btn-delete" dataId="${e.bread_id}">delete</button>
+//             </td> 
+//           </tr>`
+
+//   });
+//   $("table tbody").html(listTypeData)
+//   let maxPage = data[totalPage]
+//   let currentPage = data[currPage]
+//   let paginationButton = ""
+
+//   if (currentPage == 1) {
+//     paginationButton +=
+//       `<li class="page-item  disabled">
+//       <button type="submit"  id="pagination" name="page" value="${Number(currentPage) - 1}"
+//       class="page-link ${nameClass}">Previous</button>
+//   </li>`
+//   } else {
+//     paginationButton +=
+//       `<li class="page-item ">
+//         <button type="submit"  id="pagination" name="page"  value="${Number(currentPage) - 1}"
+//         class="page-link ${nameClass}">Previous</button>
+//     </li>`
+//   }
+//   for (let page = 1; page <= maxPage; page++) {
+//     if (currentPage == page) {
+//       paginationButton += `
+//       <li class="page-item active pg-${page}"> 
+//         <button type="submit" id="pagination" name="page" value="${page}" class="page-link ${nameClass} ">${page}</button>
+//       </li>`
+//     } else {
+//       paginationButton +=
+//         `<li class="page-item pg-${page}"> 
+//         <button type="submit" id="pagination" name="page" value="${page}" class="page-link ${nameClass}">${page}</button>
+//       </li>`
+//     }
+//   }
+//   if (currentPage == maxPage) {
+//     paginationButton += `
+//     <li class="page-item  disabled ">
+//         <button type="submit"  id="pagination" name="page" value="${Number(currentPage) + 1}" class="page-link ${nameClass} ">Next</button>
+//     </li>`
+//   } else {
+//     paginationButton += `
+//     <li class="page-item ">
+//         <button type="submit"  id="pagination" name="page" value="${Number(currentPage) + 1}" class="page-link ${nameClass} ">Next</button>
+//     </li>`
+//   }
+//   $("ul.pagination").html(paginationButton)
+// }

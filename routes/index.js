@@ -4,9 +4,8 @@ var router = express.Router();
 /* GET home page. */
 module.exports = (db) => {
 
-  const conditionSql = []
-  const conditionSqlAll = []
-  const conditionParam = []
+  let conditionSql = []
+  let conditionParam = []
   router.get('/', function (req, res, next) {
 
     const limit = 5
@@ -73,16 +72,16 @@ module.exports = (db) => {
         conditionParam.push(limit, (currPageBrowse * limit - limit))
 
         db.query(`SELECT*FROM bread WHERE ${sqlQuery} LIMIT $${counter} OFFSET $${counter + 1} `, conditionParam, (err, data2) => {
-
+          conditionParam = []
+          conditionSql = []
           if (err) return res.status(500).json({ err })
           const totalData = data1.rows[0].total
           console.log(totalData)
           const totalPageBrowse = Math.ceil(totalData / limit)
           let listBrowse = data2.rows
-          console.log(totalPageBrowse)
-          console.log(listBrowse)
-          console.log(currPageBrowse)
-          // res.json({ totalPageBrowse, listBrowse, currPageBrowse })
+          let fiturBrowser = req.query.fiturBrowser
+
+          res.json({ totalPageBrowse, listBrowse, currPageBrowse, fiturBrowser })
 
 
         })
@@ -97,7 +96,7 @@ module.exports = (db) => {
         db.query(`SELECT*FROM bread ORDER BY bread_id LIMIT $1 OFFSET $2 `, [limit, ((currPage * limit) - limit)], (err, data2) => {
           if (err) return res.status(500).json({ err })
           const totalData = data1.rows[0].total
-          console.log(totalData)
+
           const totalPage = Math.ceil(totalData / limit)
           let list = data2.rows
           if (currPage > totalPage) {
