@@ -71,7 +71,7 @@ module.exports = (db) => {
 
         conditionParam.push(limit, (currPageBrowse * limit - limit))
 
-        db.query(`SELECT*FROM bread WHERE ${sqlQuery} LIMIT $${counter} OFFSET $${counter + 1} `, conditionParam, (err, data2) => {
+        db.query(`SELECT*FROM bread WHERE ${sqlQuery} ORDER BY bread_id LIMIT $${counter} OFFSET $${counter + 1} `, conditionParam, (err, data2) => {
           conditionParam = []
           conditionSql = []
           if (err) return res.status(500).json({ err })

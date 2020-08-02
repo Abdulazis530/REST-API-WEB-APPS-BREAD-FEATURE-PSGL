@@ -24,7 +24,11 @@ $(document).ready(() => {
     } else {
       editData({ bread_id, string, integer, float, date, bool })
     }
-
+    $('#inputString').val('')
+    $('#inputInteger').val('')
+    $('#inputFloat').val('')
+    $('#inputDate').val('')
+    $('#inputBool').val("Choose...")
   })
 
   //to hide and show button Add and Edit in the modals
@@ -131,7 +135,7 @@ const loadData = (obj) => {
   } else {
     request = { method: "GET", url: `${API_URL}bread?${queryBrowse}&pageBrowse=${obj.pageBrowse}` }
   }
-  // let request = typeof reqPage === "undefined" ? { method: "GET", url: `${API_URL}bread` } : { method: "GET", url: `${API_URL}bread?page=${reqPage}` }
+
   $.ajax(request)
     .done(function (data) {
       console.log(`its'here`)
@@ -230,13 +234,11 @@ const addData = (randomType) => {
     data: randomType
 
   }).done(function (data) {
-    console.log("good")
-    loadData()
-    $('#inputString').val('')
-    $('#inputInteger').val('')
-    $('#inputFloat').val('')
-    $('#inputDate').val('')
-    $('#inputBool').val('')
+    if (typeof queryBrowse === "undefined") {
+      loadData()
+    } else {
+      loadData({ queryBrowse })
+    }
   }).fail(function (jqXHR, textStatus) {
     alert("Request failed: " + textStatus);
   });
@@ -250,8 +252,11 @@ const deleteData = (id) => {
 
   }).done(function (data) {
     console.log("good")
-    loadData()
-
+    if (typeof queryBrowse === "undefined") {
+      loadData()
+    } else {
+      loadData({ queryBrowse })
+    }
   }).fail(function (jqXHR, textStatus) {
     alert("Request failed: " + textStatus);
   });
@@ -266,7 +271,13 @@ const editData = (randomType) => {
 
   }).done(function (data) {
     console.log("good")
-    loadData()
+    if (typeof queryBrowse === "undefined") {
+      loadData()
+    } else {
+      loadData({ queryBrowse })
+    }
+
+
 
   }).fail(function (jqXHR, textStatus) {
     alert("Request failed: " + textStatus);
